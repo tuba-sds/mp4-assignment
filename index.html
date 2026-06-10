@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Don't Trust the Label — A Fairness Experiment</title>
+<style>
+  :root{
+    --bg:#0d1117;
+    --panel:#161b22;
+    --ink:#e6edf3;
+    --muted:#9aa7b4;
+    --accent:#58a6ff;
+    --accent2:#3fb950;
+    --warn:#f0883e;
+    --danger:#ff7b72;
+    --line:#30363d;
+    --maxw:980px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    overflow:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- Slide structure ---------- */
+  .deck{height:100vh;width:100vw;position:relative}
+  .slide{
+    position:absolute;inset:0;
+    display:flex;flex-direction:column;justify-content:center;
+    padding:6vh 8vw;
+    opacity:0;visibility:hidden;
+    transform:translateY(18px);
+    transition:opacity .45s ease, transform .45s ease, visibility .45s;
+    overflow-y:auto;
+  }
+  .slide.active{opacity:1;visibility:visible;transform:translateY(0)}
+  .inner{max-width:var(--maxw);margin:0 auto;width:100%}
+
+  .kicker{
+    display:inline-block;
+    font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--accent);font-weight:700;margin-bottom:1rem;
+    border:1px solid var(--line);border-radius:999px;padding:.35rem .9rem;
+  }
+  h1{font-size:clamp(2rem,5vw,3.6rem);line-height:1.1;margin-bottom:1.2rem;letter-spacing:-.02em}
+  h2{font-size:clamp(1.5rem,3.2vw,2.4rem);line-height:1.15;margin-bottom:1.4rem;letter-spacing:-.01em}
+  .lead{font-size:clamp(1.05rem,1.8vw,1.4rem);color:var(--muted);margin-bottom:1.8rem;max-width:760px;line-height:1.5}
+  .quote{
+    font-size:clamp(1.2rem,2.4vw,1.9rem);font-weight:600;line-height:1.4;
+    border-left:4px solid var(--accent);padding-left:1.2rem;color:var(--ink);
+    margin:1.4rem 0;
+  }
+  ul{list-style:none;display:flex;flex-direction:column;gap:1rem;margin-top:.6rem}
+  li{
+    position:relative;padding-left:1.9rem;font-size:clamp(1rem,1.55vw,1.25rem);
+    line-height:1.5;color:var(--ink);
+  }
+  li::before{
+    content:"";position:absolute;left:0;top:.55em;
+    width:.7rem;height:.7rem;border-radius:50%;
+    background:var(--accent);
+  }
+  li strong{color:#fff}
+  .muted{color:var(--muted)}
+  .green{color:var(--accent2)}
+  .warn{color:var(--warn)}
+  .danger{color:var(--danger)}
+
+  /* Cards */
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:.6rem}
+  .card{
+    background:var(--panel);border:1px solid var(--line);border-radius:14px;
+    padding:1.2rem 1.3rem;
+  }
+  .card h3{font-size:1.05rem;margin-bottom:.5rem;color:var(--accent)}
+  .card p{color:var(--muted);font-size:.98rem;line-height:1.45}
+  .card.full{grid-column:1/-1}
+  .tag{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+  /* Stat row for case study */
+  .stats{display:flex;flex-wrap:wrap;gap:1rem;margin:1.2rem 0}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:1rem 1.2rem;flex:1;min-width:140px}
+  .stat .n{font-size:1.8rem;font-weight:800;line-height:1}
+  .stat .l{font-size:.85rem;color:var(--muted);margin-top:.4rem}
+
+  /* Bar visual for capacity trap */
+  .bars{display:flex;gap:1.4rem;align-items:flex-end;height:180px;margin:1.4rem 0;padding:0 .5rem}
+  .bar{flex:1;display:flex;flex-direction:column;align-items:center;gap:.5rem;height:100%;justify-content:flex-end}
+  .bar .fill{width:100%;border-radius:8px 8px 0 0;transition:height .6s ease}
+  .bar .cap{font-size:.85rem;color:var(--muted)}
+  .bar .val{font-weight:700;font-size:.95rem}
+
+  /* footer / nav */
+  .footer{
+    position:fixed;bottom:0;left:0;right:0;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:.8rem 1.4rem;font-size:.85rem;color:var(--muted);
+    border-top:1px solid var(--line);background:rgba(13,17,23,.8);backdrop-filter:blur(6px);
+    z-index:50;
+  }
+  .progress{position:fixed;top:0;left:0;height:3px;background:var(--accent);z-index:60;transition:width .4s ease}
+  .nav-btns{display:flex;gap:.5rem}
+  .nav-btns button{
+    background:var(--panel);border:1px solid var(--line);color:var(--ink);
+    border-radius:8px;padding:.4rem .8rem;cursor:pointer;font-size:.85rem;
+  }
+  .nav-btns button:hover{border-color:var(--accent);color:var(--accent)}
+  .dots{display:flex;gap:.4rem}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--line);cursor:pointer;transition:background .2s}
+  .dot.active{background:var(--accent)}
+  .hint{font-size:.8rem;color:var(--muted)}
+
+  /* title slide */
+  .title-slide .inner{text-align:center}
+  .title-slide .quote{border:none;padding:0;text-align:center}
+  .byline{color:var(--muted);margin-top:1.6rem;font-size:1rem}
+
+  .feature-badge{color:var(--warn);font-weight:700}
+  .ceiling-note{font-size:.85rem;color:var(--muted);margin-top:.4rem;font-style:italic}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="deck" id="deck">
+
+  <!-- Slide 0: Title -->
+  <section class="slide title-slide active">
+    <div class="inner">
+      <span class="kicker">Fairness in Allocation · Project MP4</span>
+      <h1>Don't Trust the Label —<br>Measure Reality Every Cycle</h1>
+      <p class="quote">What I learned from teaching an algorithm to share fish fairly.</p>
+      <p class="byline">An experiment in fairness, bias, and the hidden cost of trusting reputation over reality.</p>
+    </div>
+  </section>
+
+  <!-- Slide 1: Key Lesson -->
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">Slide 1 · The Key Lesson</span>
+      <h2>Don't trust the label — measure reality every cycle.</h2>
+      <ul>
+        <li>I built a rule that sounded perfectly fair: <strong>always help whoever needs it most.</strong> But it created the <strong class="danger">worst</strong> unfairness of all — I call this the <strong>Capacity Trap</strong>.</li>
+        <li>The reason: it ranked fishing zones by their old <em>reputation</em> ("the best zone"), not by how many fish were <strong>actually there right now</strong>. So it kept sending the neediest people to zones that were already fished empty.</li>
+        <li>That one surprise shaped my whole design: <strong>rank by what's really there this moment, recalculate every cycle, and never trust yesterday's numbers.</strong></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Slide 2: Stance on Fairness -->
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">Slide 2 · My Stance on Fairness</span>
+      <h2>Rawlsian, stock-aware, group-blind — and honest about its price.</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>What it stands for</h3>
+          <p>Protect the worst-off first (lift the floor). Judge on <strong>current reality</strong>, not reputation. Never look at which group someone is in — only their health and the live fish stock.</p>
+        </div>
+        <div class="card">
+          <h3>What it gives up</h3>
+          <p>It won't squeeze out the maximum total catch — I refuse to hand the richest zones to the most skilled group. And in a true famine, it <strong>can't</strong> save everyone.</p>
+        </div>
+      </div>
+      <p class="quote" style="margin-top:1.6rem">"A perfectly fair algorithm is mathematically impossible on top of an unequal starting line."</p>
+    </div>
+  </section>
+
+  <!-- Slide 3: Methodology -->
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">Slide 3 · How I Worked With the AI</span>
+      <h2>Hypothesis-driven — and adversarial when it mattered.</h2>
+      <ul>
+        <li><strong>My loop every time:</strong> predict → run a big batch (50 times) → observe → explain → connect. I <strong>never</strong> trusted one noisy run.</li>
+        <li>I used the AI to teach me concepts (fairness math, hidden bias), read the metrics, fix bugs, and build a test harness that tried <strong>~11 different rules</strong> against the real engine.</li>
+        <li><strong class="warn">But I checked its claims.</strong> I caught it trusting a score that only counted survivors (a third had already died), and a "need-based = 100%" result that couldn't be repeated.</li>
+        <li class="muted">The rule I learned: <strong>verify the baseline before you optimize against it.</strong></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Slide 4: Findings -->
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">Slide 4 · What I've Found So Far</span>
+      <h2>Four experiments, four surprises.</h2>
+      <div class="grid">
+        <div class="card">
+          <span class="tag">Experiment 1</span>
+          <h3>No rule wins everything</h3>
+          <p>Every rule is best at <em>something</em> and worst at something else. The surprise: <strong class="green">lifting the floor also raised the total</strong> — helping the weakest didn't cost the group.</p>
+        </div>
+        <div class="card">
+          <span class="tag">Experiment 2</span>
+          <h3>Hiding the group changed nothing</h3>
+          <p>I removed the group label — bias still rode in through <strong>wealth as a stand-in</strong>. And two fairness goals could never both be met (0 / 50 runs).</p>
+        </div>
+        <div class="card">
+          <span class="tag">Experiment 3</span>
+          <h3>Advantage compounds</h3>
+          <p>The poorest group froze at a tiny catch. The Capacity Trap flipped outcomes upside down. And in famine, survival caps at about <strong>74%</strong>.</p>
+        </div>
+        <div class="card">
+          <span class="tag">My Constitution · in progress</span>
+          <h3>Stock-aware proportional fill</h3>
+          <p><strong class="green">100% in normal times</strong>, ~74% in famine (ties the best rule), fixes the trap, and has the <strong>lowest unfairness of all ~11 variants.</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 5: Real World -->
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">Slide 5 · Real-World Connections</span>
+      <h2>The AI industry is playing the exact same game.</h2>
+      <ul>
+        <li><strong>The scarce fish = compute, data, and talent.</strong> Group A = the giant frontier labs. Group C = open-source projects and startups.</li>
+        <li><strong>Benchmarks are the noisy observation</strong>, and compute spending is the wealth stand-in — "10,000 H100 chips is unmistakably a big lab, no matter what name is on the door."</li>
+        <li><strong>The GPU shortage is the famine.</strong> And using <strong>2022 safety rules to judge 2025 models</strong> is exactly the stale-data mistake from the Capacity Trap.</li>
+        <li class="warn">"Group A writes the ruler that measures everyone" — the incumbents set the benchmarks that decide who gets access.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Slide 6: Takeaways -->
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">Slide 6 · Takeaways</span>
+      <h2>What surprised me and changed my thinking.</h2>
+      <ul>
+        <li><strong class="green">Helping the worst-off raised the average.</strong> Fairness and efficiency don't always fight each other.</li>
+        <li><strong class="danger">The "fair" rule caused the worst harm</strong> (the Capacity Trap) — and the group it ignored actually thrived.</li>
+        <li><strong>Hiding the group label did nothing</strong> — bias simply rode in on a proxy.</li>
+        <li><strong>100% is impossible by sharing alone</strong> — it's just arithmetic: 9 fish can't feed 18 hungry people. Only redistribution fixes a famine, and an allocation rule can't redistribute.</li>
+        <li class="quote" style="margin-top:.5rem">The big shift: "The algorithm isn't the problem — it's a mirror. Fairness is a choice about whose harm counts, not a calculation."</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Slide 7: Featured Case Study -->
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker"><span class="feature-badge">★ Featured Case Study</span></span>
+      <h2>The Capacity Trap</h2>
+      <p class="lead">A rule built to protect the weakest produced the worst inequality — purely because it trusted reputation over reality. This is a real pattern from a <strong>50-run batch</strong>, not a fluke.</p>
+
+      <div class="bars">
+        <div class="bar">
+          <span class="val danger">~0</span>
+          <div class="fill" style="height:4%;background:var(--danger)"></div>
+          <span class="cap">Deep Water<br>(famous, fished empty)</span>
+        </div>
+        <div class="bar">
+          <span class="val danger">~0</span>
+          <div class="fill" style="height:6%;background:var(--danger)"></div>
+          <span class="cap">Kelp Forest<br>(famous, fished empty)</span>
+        </div>
+        <div class="bar">
+          <span class="val green">full</span>
+          <div class="fill" style="height:92%;background:var(--accent2)"></div>
+          <span class="cap">Southern Reef<br>(ignored, still full)</span>
+        </div>
+        <div class="bar">
+          <span class="val green">full</span>
+          <div class="fill" style="height:88%;background:var(--accent2)"></div>
+          <span class="cap">Western Bay<br>(ignored, still full)</span>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><div class="n green">49.3</div><div class="l">Group A — the deprioritized group <em>thrives</em></div></div>
+        <div class="stat"><div class="n danger">34.8</div><div class="l">Group B — craters</div></div>
+        <div class="stat"><div class="n">45.9</div><div class="l">Group C</div></div>
+        <div class="stat"><div class="n warn">0.07→0.16</div><div class="l">Inequality (Gini) <strong>doubles</strong></div></div>
+      </div>
+
+      <p class="muted">Why it spoke to me: the group the rule <em>deprioritized</em> (A) ended up best — because it got sent to the ignored-but-full zones. It maps perfectly onto AI: everyone floods the "best" provider until it degrades, while the diversifiers quietly win on the leaner ones.</p>
+    </div>
+  </section>
+
+</div>
+
+<div class="footer">
+  <div class="hint">← → or Space to navigate · Press <strong>F</strong> for fullscreen</div>
+  <div class="dots" id="dots"></div>
+  <div class="nav-btns">
+    <button id="prev">‹ Prev</button>
+    <span id="counter" style="align-self:center;min-width:48px;text-align:center"></span>
+    <button id="next">Next ›</button>
+  </div>
+</div>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const dotsWrap = document.getElementById('dots');
+  const progress = document.getElementById('progress');
+  const counter = document.getElementById('counter');
+  let i = 0;
+
+  slides.forEach((_, idx) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (idx === 0 ? ' active' : '');
+    d.addEventListener('click', () => go(idx));
+    dotsWrap.appendChild(d);
+  });
+  const dots = Array.from(document.querySelectorAll('.dot'));
+
+  function go(n){
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, idx) => s.classList.toggle('active', idx === i));
+    dots.forEach((d, idx) => d.classList.toggle('active', idx === i));
+    progress.style.width = ((i) / (slides.length - 1) * 100) + '%';
+    counter.textContent = (i + 1) + ' / ' + slides.length;
+  }
+
+  document.getElementById('next').addEventListener('click', () => go(i + 1));
+  document.getElementById('prev').addEventListener('click', () => go(i - 1));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown'){ e.preventDefault(); go(i + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp'){ e.preventDefault(); go(i - 1); }
+    else if (e.key === 'Home'){ go(0); }
+    else if (e.key === 'End'){ go(slides.length - 1); }
+    else if (e.key.toLowerCase() === 'f'){
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+      else document.exitFullscreen();
+    }
+  });
+
+  // swipe for touch
+  let sx = 0;
+  document.addEventListener('touchstart', e => sx = e.touches[0].clientX, {passive:true});
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - sx;
+    if (Math.abs(dx) > 50) go(dx < 0 ? i + 1 : i - 1);
+  }, {passive:true});
+
+  go(0);
+</script>
+</body>
+</html>
