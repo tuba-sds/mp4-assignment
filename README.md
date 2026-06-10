@@ -17,13 +17,15 @@ real-world AI industry.
 
 ## Contents
 
-1. Title
-2. The Key Lesson — measure reality every cycle
-3. My Stance on Fairness — Rawlsian, stock-aware, group-blind
-4. Methodology — working with the AI
-5. What I've Found So Far — four experiments
-6. Real-World Connections — the AI industry
+1. Title — "Equal treatment of unequals is the greatest inequality." (Aristotle)
+2. Key Lesson — incomplete data is as misleading as false data
+3. My Stance on Fairness — Rawls + Sen (floor vs. ceiling)
+4. Methodology — predict → run → batch → compare → reason → real world
+5. The Three Expeditions — **interactive** tabbed bar charts (click any preset)
+6. Real-World Connection — **interactive** AI ocean (big/medium/small fish + GPU-famine toggle)
 7. Takeaways
 8. ★ Featured Case Study — The Capacity Trap
 
-No build step, no dependencies — one HTML file.
+Slide 5 lets you switch between Expedition 1/2/3 (and the Famine sub-test) and click each
+preset to see its numbers and story. Slide 6 lets you click each fish school and trigger a
+simulated GPU famine. No build step, no dependencies — one HTML file.

@@ -122,6 +122,83 @@
 
   .feature-badge{color:var(--warn);font-weight:700}
   .ceiling-note{font-size:.85rem;color:var(--muted);margin-top:.4rem;font-style:italic}
+
+  /* ---------- Methodology flow ---------- */
+  .flow{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin:1.2rem 0 1.6rem}
+  .flow .step{
+    background:var(--panel);border:1px solid var(--line);border-radius:10px;
+    padding:.6rem .9rem;font-weight:600;font-size:clamp(.85rem,1.3vw,1.05rem);white-space:nowrap;
+  }
+  .flow .step:last-child{border-color:var(--accent2);color:var(--accent2)}
+  .flow .arrow{color:var(--accent);font-weight:700}
+
+  /* ---------- Expedition tabs ---------- */
+  .tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}
+  .tab{
+    background:var(--panel);border:1px solid var(--line);color:var(--muted);
+    border-radius:10px;padding:.55rem 1.1rem;cursor:pointer;font-weight:600;font-size:.95rem;
+    transition:all .2s;
+  }
+  .tab:hover{border-color:var(--accent)}
+  .tab.active{background:var(--accent);border-color:var(--accent);color:#06121f}
+  .exp-panel{display:none}
+  .exp-panel.active{display:block;animation:fade .35s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .exp-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:.5rem;margin-bottom:.4rem}
+  .exp-head h3{font-size:1.25rem}
+  .exp-head .sub{color:var(--muted);font-size:.9rem}
+  .subtabs{display:flex;gap:.4rem;margin:.4rem 0 .8rem}
+  .subtab{background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:.35rem .8rem;cursor:pointer;font-size:.85rem}
+  .subtab.active{border-color:var(--accent2);color:var(--accent2)}
+
+  .legend{display:flex;gap:1.2rem;flex-wrap:wrap;font-size:.82rem;color:var(--muted);margin:.4rem 0 .8rem}
+  .legend span{display:inline-flex;align-items:center;gap:.4rem}
+  .legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+
+  /* chart */
+  .chart{display:flex;gap:1rem;align-items:flex-end;height:200px;padding:.5rem .2rem;border-bottom:1px solid var(--line);overflow-x:auto}
+  .pcol{flex:1;min-width:90px;display:flex;flex-direction:column;align-items:center;height:100%;justify-content:flex-end;cursor:pointer;border-radius:8px 8px 0 0;padding-top:4px;transition:background .2s}
+  .pcol:hover{background:rgba(88,166,255,.08)}
+  .pcol.sel{background:rgba(88,166,255,.14)}
+  .pgroup{display:flex;gap:4px;align-items:flex-end;height:100%;width:100%;justify-content:center}
+  .pbar{width:22px;border-radius:5px 5px 0 0;position:relative;transition:height .5s ease;min-height:3px}
+  .pbar .bv{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:.68rem;color:var(--ink);font-weight:700;white-space:nowrap}
+  .pname{font-size:.78rem;color:var(--muted);margin-top:.6rem;text-align:center;line-height:1.2;max-width:110px}
+  .pcol.sel .pname{color:var(--ink);font-weight:700}
+
+  .detail{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:1rem 1.2rem;margin-top:1rem;min-height:70px}
+  .detail h4{font-size:1.05rem;margin-bottom:.4rem}
+  .detail .nums{display:flex;gap:1.2rem;flex-wrap:wrap;margin:.5rem 0;font-size:.85rem;color:var(--muted)}
+  .detail .nums b{color:var(--ink)}
+  .story{font-size:.92rem;color:var(--muted);margin-top:.8rem;border-left:3px solid var(--accent);padding-left:.8rem}
+  .caveat{font-size:.8rem;color:var(--warn);margin-top:.6rem}
+
+  /* ---------- Fish scene ---------- */
+  .ocean{
+    position:relative;height:clamp(230px,34vh,330px);border-radius:16px;overflow:hidden;margin:.7rem 0;
+    background:linear-gradient(180deg,#0b3a5c 0%,#072438 60%,#04161f 100%);
+    border:1px solid var(--line);
+  }
+  .school{position:absolute;cursor:pointer}
+  .fish{position:absolute;animation:swim linear infinite}
+  @keyframes swim{from{transform:translateX(-140px)}to{transform:translateX(calc(100% + 900px))}}
+  @keyframes bob{0%,100%{margin-top:0}50%{margin-top:8px}}
+  .fish svg{display:block;animation:bob ease-in-out infinite}
+  .tier-label{
+    position:absolute;left:12px;font-size:.78rem;color:rgba(255,255,255,.75);
+    background:rgba(0,0,0,.35);padding:.25rem .6rem;border-radius:6px;pointer-events:none;
+  }
+  .ocean.famine .small-school .fish{opacity:.18;filter:grayscale(1)}
+  .fish-controls{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;margin:.4rem 0 1rem}
+  .fbtn{background:var(--panel);border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:.5rem 1rem;cursor:pointer;font-weight:600;font-size:.9rem}
+  .fbtn:hover{border-color:var(--accent)}
+  .fbtn.tier.active{border-color:var(--accent);color:var(--accent)}
+  .fbtn.danger-btn.active{border-color:var(--danger);color:var(--danger);background:rgba(255,123,114,.1)}
+  .fish-info{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:1rem 1.2rem;min-height:80px}
+  .fish-info h4{font-size:1.1rem;margin-bottom:.4rem}
+  .fish-info p{color:var(--muted);font-size:.95rem;line-height:1.5}
+  .famine-note{display:none;margin-top:.7rem;color:var(--danger);font-weight:600;font-size:.9rem}
+  .ocean.famine ~ .fish-info .famine-note{display:block}
 </style>
 </head>
 <body>
@@ -191,68 +268,75 @@
     </div>
   </section>
 
-  <!-- Slide 3: Methodology -->
+  <!-- Slide 4: Methodology -->
   <section class="slide">
     <div class="inner">
-      <span class="kicker">Slide 3 · How I Worked With the AI</span>
-      <h2>Hypothesis-driven — and adversarial when it mattered.</h2>
-      <ul>
-        <li><strong>My loop every time:</strong> predict → run a big batch (50 times) → observe → explain → connect. I <strong>never</strong> trusted one noisy run.</li>
-        <li>I used the AI to teach me concepts (fairness math, hidden bias), read the metrics, fix bugs, and build a test harness that tried <strong>~11 different rules</strong> against the real engine.</li>
-        <li><strong class="warn">But I checked its claims.</strong> I caught it trusting a score that only counted survivors (a third had already died), and a "need-based = 100%" result that couldn't be repeated.</li>
-        <li class="muted">The rule I learned: <strong>verify the baseline before you optimize against it.</strong></li>
-      </ul>
-    </div>
-  </section>
+      <span class="kicker">Slide 4 · Methodology</span>
+      <h2>How I worked — predict, test, then question the answer.</h2>
 
-  <!-- Slide 4: Findings -->
-  <section class="slide">
-    <div class="inner">
-      <span class="kicker">Slide 4 · What I've Found So Far</span>
-      <h2>Four experiments, four surprises.</h2>
+      <div class="flow">
+        <span class="step">Predict</span><span class="arrow">→</span>
+        <span class="step">Single run</span><span class="arrow">→</span>
+        <span class="step">Batch (50×)</span><span class="arrow">→</span>
+        <span class="step">Compare metrics</span><span class="arrow">→</span>
+        <span class="step">Reason why</span><span class="arrow">→</span>
+        <span class="step">Real world</span>
+      </div>
+
       <div class="grid">
         <div class="card">
-          <span class="tag">Experiment 1</span>
-          <h3>No rule wins everything</h3>
-          <p>Every rule is best at <em>something</em> and worst at something else. The surprise: <strong class="green">lifting the floor also raised the total</strong> — helping the weakest didn't cost the group.</p>
+          <h3>What the AI taught me by failing</h3>
+          <p><strong>Verify before you optimize.</strong> A perfect average can hide dead people — the metric you trust most is usually the one lying hardest.</p>
         </div>
         <div class="card">
-          <span class="tag">Experiment 2</span>
-          <h3>Hiding the group changed nothing</h3>
-          <p>I removed the group label — bias still rode in through <strong>wealth as a stand-in</strong>. And two fairness goals could never both be met (0 / 50 runs).</p>
-        </div>
-        <div class="card">
-          <span class="tag">Experiment 3</span>
-          <h3>Advantage compounds</h3>
-          <p>The poorest group froze at a tiny catch. The Capacity Trap flipped outcomes upside down. And in famine, survival caps at about <strong>74%</strong>.</p>
-        </div>
-        <div class="card">
-          <span class="tag">My Constitution · in progress</span>
-          <h3>Stock-aware proportional fill</h3>
-          <p><strong class="green">100% in normal times</strong>, ~74% in famine (ties the best rule), fixes the trap, and has the <strong>lowest unfairness of all ~11 variants.</strong></p>
+          <h3>The most fun part</h3>
+          <p>Finding <strong>real-world examples</strong> of how common these traps are — and realizing we <em>still</em> haven't found the best approach for them in real life.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Slide 5: Real World -->
+  <!-- Slide 5: Expeditions (interactive) -->
   <section class="slide">
     <div class="inner">
-      <span class="kicker">Slide 5 · Real-World Connections</span>
-      <h2>The AI industry is playing the exact same game.</h2>
-      <ul>
-        <li><strong>The scarce fish = compute, data, and talent.</strong> Group A = the giant frontier labs. Group C = open-source projects and startups.</li>
-        <li><strong>Benchmarks are the noisy observation</strong>, and compute spending is the wealth stand-in — "10,000 H100 chips is unmistakably a big lab, no matter what name is on the door."</li>
-        <li><strong>The GPU shortage is the famine.</strong> And using <strong>2022 safety rules to judge 2025 models</strong> is exactly the stale-data mistake from the Capacity Trap.</li>
-        <li class="warn">"Group A writes the ruler that measures everyone" — the incumbents set the benchmarks that decide who gets access.</li>
-      </ul>
+      <span class="kicker">Slide 5 · What I Found — The Three Expeditions</span>
+      <h2 style="margin-bottom:.6rem">Click a preset to explore. <span class="muted" style="font-weight:400;font-size:1rem">(All values = mean of 50 runs.)</span></h2>
+
+      <div class="tabs" id="expTabs"></div>
+      <div id="expBody"></div>
+
+      <p class="caveat" style="margin-top:.6rem">Metric directions: Gini ↓ better (0=equal) · Min Group Welfare ↑ · Total Welfare ↑ (both 0–50) · Survival ↑ (% alive).</p>
+    </div>
+  </section>
+
+  <!-- Slide 6: Fish scene (interactive) -->
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">Slide 6 · Real-World Connection — The AI Ocean</span>
+      <h2 style="margin-bottom:.4rem">Big fish, medium fish, small fish.</h2>
+      <p class="lead" style="margin-bottom:.6rem">The AI industry is the same ocean. Scarce fish = <strong>compute, data, talent</strong>. Click a school to see who's who.</p>
+
+      <div class="ocean" id="ocean">
+        <div class="tier-label" style="top:14px">🐋 Big fish — frontier labs</div>
+        <div class="tier-label" style="top:48%">🐟 Medium fish — scale-ups</div>
+        <div class="tier-label" style="bottom:14px">🐠 Small fish — open-source & startups</div>
+      </div>
+
+      <div class="fish-controls">
+        <button class="fbtn tier active" data-tier="big">🐋 Big</button>
+        <button class="fbtn tier" data-tier="med">🐟 Medium</button>
+        <button class="fbtn tier" data-tier="small">🐠 Small</button>
+        <button class="fbtn danger-btn" id="famineBtn">⚡ Trigger GPU Famine</button>
+      </div>
+
+      <div class="fish-info" id="fishInfo"></div>
     </div>
   </section>
 
   <!-- Slide 6: Takeaways -->
   <section class="slide">
     <div class="inner">
-      <span class="kicker">Slide 6 · Takeaways</span>
+      <span class="kicker">Slide 7 · Takeaways</span>
       <h2>What surprised me and changed my thinking.</h2>
       <ul>
         <li><strong class="green">Helping the worst-off raised the average.</strong> Fairness and efficiency don't always fight each other.</li>
@@ -363,6 +447,236 @@
   }, {passive:true});
 
   go(0);
+
+  /* =========================================================
+     SLIDE 5 — Expedition data + interactive charts
+     ========================================================= */
+  // Metric scales for bar height: gini 0–0.7, welfare 0–50, survival 0–100
+  const SCALE = { gini:0.7, minWelfare:50, totalWelfare:50, survival:100 };
+  const COLORS = { gini:'#f0883e', minWelfare:'#58a6ff', totalWelfare:'#3fb950', survival:'#58a6ff' };
+  const LABELS = { gini:'Gini ↓', minWelfare:'Min Welfare ↑', totalWelfare:'Total Welfare ↑', survival:'Survival ↑' };
+
+  const VIEWS = {
+    exp1: {
+      tab:'Expedition 1', title:'Classical Justice', sub:'100 days · no famine',
+      metrics:['gini','minWelfare','totalWelfare'],
+      note:'Survival = 100% everywhere (foraging floor on), so it is omitted here.',
+      presets:[
+        {n:'Egalitarian Lottery', gini:0.26, minWelfare:23.0, totalWelfare:30.0, survival:100,
+         s:'Everyone gets an equal shot regardless of need. Fair-sounding, but middling on every metric.'},
+        {n:'Rawlsian Maximin', gini:0.15, minWelfare:39.7, totalWelfare:41.6, survival:100,
+         s:'Protects the worst-off first. The all-rounder — wins Gini, Min Welfare AND Total Welfare.'},
+        {n:'Utilitarian Maximum', gini:0.58, minWelfare:5.0, totalWelfare:23.1, survival:100,
+         s:'Maximizes the total — but floors the worst group at 5 and spikes inequality.'},
+        {n:'Libertarian Merit', gini:0.65, minWelfare:5.0, totalWelfare:25.9, survival:100,
+         s:'Reward by skill. Worst inequality of all (0.65); the worst-off stay stuck at 5.'},
+      ],
+      story:'Rawlsian wins Gini, Min Welfare AND Total Welfare. Utilitarian and Merit floor the worst-off at 5.'
+    },
+    exp2: {
+      tab:'Expedition 2', title:'Prediction & Proxy', sub:'100 days · need-based (Proxy Trap = merit)',
+      metrics:['gini','minWelfare','totalWelfare'],
+      note:'“Both fairness criteria satisfied” = 0/50 runs under noise; calibration worst for Group C (~0.68 vs ~1.0 for A).',
+      presets:[
+        {n:'Full Information', gini:0.084, minWelfare:32.5, totalWelfare:38.0, survival:100,
+         s:'Sees everything, including group. Low inequality (Gini 0.084).'},
+        {n:'Group-Blind', gini:0.081, minWelfare:33.7, totalWelfare:38.9, survival:100,
+         s:'Hides groupId — virtually identical to Full Info. Hiding the label does nothing.'},
+        {n:'The Proxy Trap', gini:0.212, minWelfare:18.6, totalWelfare:29.2, survival:100,
+         s:'Merit + visible wealth. The lone outlier — Gini spikes to 0.212. Bias rides in on wealth.'},
+        {n:'Noisy Estimates', gini:0.083, minWelfare:32.5, totalWelfare:38.0, survival:100,
+         s:'Adds measurement noise. Numbers hold, but “both fairness criteria satisfied” = 0/50 runs.'},
+        {n:'Blind + Noisy', gini:0.086, minWelfare:32.5, totalWelfare:38.4, survival:100,
+         s:'Hidden group + noise. Still ≈ Full Info — calibration still worst for Group C.'},
+      ],
+      story:'Full Info ≈ Group-Blind: hiding groupId changes nothing. Only the Proxy Trap (merit + visible wealth) spikes Gini.'
+    },
+    exp3a: {
+      tab:'Expedition 3', title:'Feedback & Drift', sub:'300 days · no famine',
+      metrics:['gini','minWelfare','totalWelfare'],
+      note:'Survival = 100% here too — the difference shows up in who gets stuck at the bottom.',
+      presets:[
+        {n:'The Spiral', gini:0.219, minWelfare:16.6, totalWelfare:35.7, survival:100,
+         s:'Merit + a feedback loop. Advantage compounds; the worst group is stuck at 16.6.'},
+        {n:'Redress Experiment', gini:0.082, minWelfare:45.7, totalWelfare:47.6, survival:100,
+         s:'Actively corrects past harm. Lifts the floor to 45.7 — almost everyone thrives.'},
+        {n:'Stale Model', gini:0.213, minWelfare:14.4, totalWelfare:35.8, survival:100,
+         s:'Old rules judging new reality. The worst group sinks to 14.4 — the 2022-rules-on-2025 trap.'},
+        {n:'The Capacity Trap', gini:0.159, minWelfare:21.7, totalWelfare:38.0, survival:100,
+         s:'Need-based, but trusts reputation over live stock. Sends the neediest to fished-out zones.'},
+        {n:'My customAllocate', gini:0.088, minWelfare:47.7, totalWelfare:48.6, survival:100,
+         s:'Stock-aware proportional fill. Best floor (47.7) and total (48.6), with low inequality.'},
+      ],
+      story:'Redress & my customAllocate lift the floor (~46–48). The Spiral & Stale Model leave the worst group stuck (~15–17).'
+    },
+    exp3b: {
+      tab:'Expedition 3', title:'Famine Test', sub:'300 days · famine on day 150 — the survival comparison',
+      metrics:['survival'],
+      note:'Welfare here is survivors-only (the dead drop out), so it looks deceptively high — judge on survival.',
+      presets:[
+        {n:'Merit-Based', gini:0.18, minWelfare:5.0, totalWelfare:5.0, survival:100,
+         s:'100% survive — but survivors are floored at 5.0. Survival bought by starving quality.'},
+        {n:'My customAllocate', gini:0.078, minWelfare:49.6, totalWelfare:49.6, survival:74,
+         s:'74% survive with the lowest Gini (0.078) and high survivor welfare. Ties the scarcity ceiling.'},
+        {n:'Need-Based', gini:0.054, minWelfare:49.4, totalWelfare:49.4, survival:75,
+         s:'74–76% survive, lowest Gini overall (0.054). The fairest of the survivable rules.'},
+        {n:'Utilitarian', gini:0.13, minWelfare:49.8, totalWelfare:49.8, survival:60,
+         s:'Only 60% survive — about 40% (mostly Group C) die. Worst survival of all.'},
+      ],
+      story:'This is the one place survival differs. Utilitarian lets ~40% die. ~74% is the scarcity ceiling — no allocation beats it.'
+    }
+  };
+
+  // Expedition 3 has two sub-views
+  const TABS = [
+    {key:'exp1', label:'Expedition 1'},
+    {key:'exp2', label:'Expedition 2'},
+    {key:'exp3', label:'Expedition 3', subs:[{key:'exp3a',label:'Feedback & Drift'},{key:'exp3b',label:'Famine Test'}]},
+  ];
+
+  const expTabs = document.getElementById('expTabs');
+  const expBody = document.getElementById('expBody');
+  let curView = 'exp1';
+
+  TABS.forEach(t => {
+    const b = document.createElement('button');
+    b.className = 'tab' + (t.key === 'exp1' ? ' active' : '');
+    b.textContent = t.label;
+    b.dataset.tab = t.key;
+    b.addEventListener('click', () => selectTab(t));
+    expTabs.appendChild(b);
+  });
+
+  function selectTab(t){
+    [...expTabs.children].forEach(c => c.classList.toggle('active', c.dataset.tab === t.key));
+    curView = t.subs ? t.subs[0].key : t.key;
+    renderView(curView, t);
+  }
+
+  function bar(metric, val){
+    const h = Math.max(2, Math.min(100, (val / SCALE[metric]) * 100));
+    const disp = metric === 'survival' ? val + '%' : val;
+    return `<div class="pbar" style="height:${h}%;background:${COLORS[metric]}"><span class="bv">${disp}</span></div>`;
+  }
+
+  function renderView(viewKey, tab){
+    const v = VIEWS[viewKey];
+    let subHtml = '';
+    if (tab && tab.subs){
+      subHtml = '<div class="subtabs">' + tab.subs.map(s =>
+        `<button class="subtab${s.key===viewKey?' active':''}" data-sub="${s.key}">${s.label}</button>`
+      ).join('') + '</div>';
+    }
+    const legend = '<div class="legend">' + v.metrics.map(m =>
+      `<span><i style="background:${COLORS[m]}"></i>${LABELS[m]}</span>`).join('') + '</div>';
+
+    const cols = v.presets.map((p, idx) =>
+      `<div class="pcol${idx===0?' sel':''}" data-i="${idx}">
+         <div class="pgroup">${v.metrics.map(m => bar(m, p[m])).join('')}</div>
+         <div class="pname">${p.n}</div>
+       </div>`).join('');
+
+    expBody.innerHTML = `
+      <div class="exp-head">
+        <h3>${v.title}</h3><span class="sub">${v.sub}</span>
+      </div>
+      ${subHtml}
+      ${legend}
+      <div class="chart">${cols}</div>
+      <div class="detail" id="detail"></div>
+      <p class="caveat">${v.note}</p>`;
+
+    if (tab && tab.subs){
+      expBody.querySelectorAll('.subtab').forEach(sb =>
+        sb.addEventListener('click', () => { curView = sb.dataset.sub; renderView(curView, tab); }));
+    }
+    const cells = expBody.querySelectorAll('.pcol');
+    cells.forEach(c => c.addEventListener('click', () => {
+      cells.forEach(x => x.classList.remove('sel'));
+      c.classList.add('sel');
+      showDetail(v, +c.dataset.i);
+    }));
+    showDetail(v, 0);
+  }
+
+  function showDetail(v, idx){
+    const p = v.presets[idx];
+    document.getElementById('detail').innerHTML = `
+      <h4>${p.n}</h4>
+      <div class="nums">
+        <span>Gini <b>${p.gini}</b></span>
+        <span>Min Welfare <b>${p.minWelfare}</b></span>
+        <span>Total Welfare <b>${p.totalWelfare}</b></span>
+        <span>Survival <b>${p.survival}%</b></span>
+      </div>
+      <div class="story">${p.s}</div>`;
+  }
+  selectTab(TABS[0]);
+
+  /* =========================================================
+     SLIDE 6 — Fish ocean
+     ========================================================= */
+  const FISH_SVG = (w, color) => {
+    const h = Math.round(w * 0.55);
+    return `<svg width="${w}" height="${h}" viewBox="0 0 100 55">
+      <ellipse cx="45" cy="27" rx="40" ry="20" fill="${color}"/>
+      <polygon points="5,27 -18,10 -18,44" fill="${color}"/>
+      <circle cx="68" cy="22" r="4" fill="#04161f"/>
+    </svg>`;
+  };
+
+  const TIERS = {
+    big:   {count:3,  size:120, color:'#5aa9ff', top:[8,18,12],  dur:[26,32,29],
+            title:'🐋 Big Fish — Frontier Labs (Group A)',
+            body:'OpenAI, Google, Anthropic. They own the richest waters — 10,000+ H100 GPUs. Crucially, they write the benchmarks (the ruler) that measure everyone. Most compute, and they set the rules: "10,000 H100s is unmistakably Group A, no matter what name is on the door."'},
+    med:   {count:6,  size:64,  color:'#6fd3a0', top:[44,52,46,55,48,50], dur:[18,22,20,24,19,21],
+            title:'🐟 Medium Fish — Scale-ups & well-funded startups',
+            body:'Enough compute to fine-tune and specialize, but they can\'t out-spend the whales. They live in the leaner middle waters — and often thrive in zones the giants ignore (the Capacity Trap insight).'},
+    small: {count:14, size:34,  color:'#ffc36b', top:[78,84,80,88,82,86,79,85,81,87,83,89,80,84], dur:[10,13,11,14,12,9,13,11,12,10,14,11,13,12],
+            title:'🐠 Small Fish — Open-source & startups (Group C)',
+            body:'Many, fast, agile — but the smallest share of compute. When the GPU "famine" hits, they get squeezed first. Yet diversifiers can win in the waters the giants overlook.'}
+  };
+
+  const ocean = document.getElementById('ocean');
+  const fishInfo = document.getElementById('fishInfo');
+
+  Object.entries(TIERS).forEach(([key, t]) => {
+    const school = document.createElement('div');
+    school.className = 'school ' + key + '-school';
+    school.style.inset = '0';
+    school.style.position = 'absolute';
+    for (let k = 0; k < t.count; k++){
+      const f = document.createElement('div');
+      f.className = 'fish';
+      f.style.top = t.top[k % t.top.length] + '%';
+      f.style.left = '0';
+      f.style.animationDuration = t.dur[k % t.dur.length] + 's';
+      f.style.animationDelay = '-' + (k * 2.3) + 's';
+      f.innerHTML = FISH_SVG(t.size, t.color);
+      f.querySelector('svg').style.animationDuration = (3 + (k % 3)) + 's';
+      school.appendChild(f);
+    }
+    school.addEventListener('click', () => selectTier(key));
+    ocean.appendChild(school);
+  });
+
+  function selectTier(key){
+    const t = TIERS[key];
+    document.querySelectorAll('.fbtn.tier').forEach(b =>
+      b.classList.toggle('active', b.dataset.tier === key));
+    fishInfo.innerHTML = `<h4>${t.title}</h4><p>${t.body}</p>
+      <p class="famine-note">⚡ GPU Famine: small fish are squeezed first — even the fairest rule saves only ~74%. The giants barely notice.</p>`;
+  }
+  document.querySelectorAll('.fbtn.tier').forEach(b =>
+    b.addEventListener('click', () => selectTier(b.dataset.tier)));
+
+  document.getElementById('famineBtn').addEventListener('click', function(){
+    const on = ocean.classList.toggle('famine');
+    this.classList.toggle('active', on);
+    this.textContent = on ? '✓ Famine active — reset' : '⚡ Trigger GPU Famine';
+  });
+
+  selectTier('big');
 </script>
 </body>
 </html>
