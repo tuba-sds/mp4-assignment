@@ -128,45 +128,66 @@
 <div class="progress" id="progress"></div>
 <div class="deck" id="deck">
 
-  <!-- Slide 0: Title -->
+  <!-- Slide 1: Title -->
   <section class="slide title-slide active">
     <div class="inner">
-      <span class="kicker">Fairness in Allocation · Project MP4</span>
-      <h1>Don't Trust the Label —<br>Measure Reality Every Cycle</h1>
-      <p class="quote">What I learned from teaching an algorithm to share fish fairly.</p>
-      <p class="byline">An experiment in fairness, bias, and the hidden cost of trusting reputation over reality.</p>
+      <span class="kicker">MP4 Assignment</span>
+      <h1>"Equal treatment of unequals is the greatest inequality."</h1>
+      <p class="byline">— Aristotle</p>
+      <p class="byline" style="margin-top:2rem">Submitted by <strong>Tuba Ali</strong></p>
     </div>
   </section>
 
-  <!-- Slide 1: Key Lesson -->
+  <!-- Slide 2: Key Lesson -->
   <section class="slide">
     <div class="inner">
-      <span class="kicker">Slide 1 · The Key Lesson</span>
-      <h2>Don't trust the label — measure reality every cycle.</h2>
-      <ul>
-        <li>I built a rule that sounded perfectly fair: <strong>always help whoever needs it most.</strong> But it created the <strong class="danger">worst</strong> unfairness of all — I call this the <strong>Capacity Trap</strong>.</li>
-        <li>The reason: it ranked fishing zones by their old <em>reputation</em> ("the best zone"), not by how many fish were <strong>actually there right now</strong>. So it kept sending the neediest people to zones that were already fished empty.</li>
-        <li>That one surprise shaped my whole design: <strong>rank by what's really there this moment, recalculate every cycle, and never trust yesterday's numbers.</strong></li>
+      <span class="kicker">Slide 2 · Key Lesson</span>
+      <h2>Incomplete data is equally misleading as false data.</h2>
+
+      <div class="grid">
+        <div class="card">
+          <h3>What I saw</h3>
+          <p style="font-size:1.1rem;line-height:1.8">
+            Min Group Welfare = <strong class="green">49.6 ✓</strong><br>
+            Survival rate = <strong class="danger">67% ✗</strong> — a third already dead
+          </p>
+        </div>
+        <div class="card">
+          <h3>Why it looked fine</h3>
+          <p>Dead agents drop out of the average. The survivors look healthy. The metric reports the truth — just not the <strong>whole</strong> truth.</p>
+        </div>
+      </div>
+
+      <ul style="margin-top:1.4rem">
+        <li><strong>The rule:</strong> always ask — <em>who is still in this average?</em></li>
+        <li class="muted"><strong>Real world:</strong> a hospital reports "average patient health = excellent" — but the sickest patients already left. Survivors skew everything.</li>
       </ul>
     </div>
   </section>
 
-  <!-- Slide 2: Stance on Fairness -->
+  <!-- Slide 3: Stance on Fairness -->
   <section class="slide">
     <div class="inner">
-      <span class="kicker">Slide 2 · My Stance on Fairness</span>
-      <h2>Rawlsian, stock-aware, group-blind — and honest about its price.</h2>
+      <span class="kicker">Slide 3 · My Stance on Fairness</span>
+      <p class="quote">"What rules would you pick if you didn't know whether you'd be born Group A or Group C?"</p>
+      <p class="lead" style="margin-top:1rem">In the sim, the <strong>Rawlsian</strong> rule protected the weakest — it lifted Group C from health <strong class="danger">23</strong> → <strong class="green">40</strong>, and raised <em>everyone's</em> average. That's fairness from behind the veil.</p>
+
       <div class="grid">
         <div class="card">
-          <h3>What it stands for</h3>
-          <p>Protect the worst-off first (lift the floor). Judge on <strong>current reality</strong>, not reputation. Never look at which group someone is in — only their health and the live fish stock.</p>
+          <h3>What Rawls missed</h3>
+          <p>Rawls assumes equal rules = equal opportunity. But equal rules applied to <strong>unequal people</strong> isn't equal opportunity.</p>
         </div>
         <div class="card">
-          <h3>What it gives up</h3>
-          <p>It won't squeeze out the maximum total catch — I refuse to hand the richest zones to the most skilled group. And in a true famine, it <strong>can't</strong> save everyone.</p>
+          <h3>What Sen added</h3>
+          <p>Equal rules aren't enough. The real question: <strong>what can you actually do with them?</strong></p>
         </div>
       </div>
-      <p class="quote" style="margin-top:1.6rem">"A perfectly fair algorithm is mathematically impossible on top of an unequal starting line."</p>
+
+      <ul style="margin-top:1.4rem">
+        <li><strong>Rawls</strong> gives everyone the same rules.</li>
+        <li><strong>Sen</strong> asks whether those rules actually expand what the <em>weakest</em> person can do.</li>
+        <li class="green"><strong>Fair process is the floor. Real capability is the ceiling.</strong></li>
+      </ul>
     </div>
   </section>
 
