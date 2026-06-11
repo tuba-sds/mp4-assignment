@@ -199,6 +199,45 @@
   .fish-info p{color:var(--muted);font-size:.95rem;line-height:1.5}
   .famine-note{display:none;margin-top:.7rem;color:var(--danger);font-weight:600;font-size:.9rem}
   .ocean.famine ~ .fish-info .famine-note{display:block}
+
+  /* ---------- Real Takeaways cards ---------- */
+  .take{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1.2rem 0 1.4rem}
+  .take .tcard{
+    background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    padding:1.3rem 1.3rem 1.4rem;display:flex;flex-direction:column;gap:.7rem;
+    position:relative;overflow:hidden;
+  }
+  .take .tcard::after{
+    content:"";position:absolute;inset:0 0 auto 0;height:3px;
+    background:linear-gradient(90deg,var(--accent),transparent);
+  }
+  .take .ic{font-size:2.6rem;line-height:1}
+  .take .tlabel{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700}
+  .take .tquote{font-size:1.02rem;font-weight:600;line-height:1.35;color:#fff}
+  .take .tev{font-size:.86rem;color:var(--muted);line-height:1.45;border-top:1px solid var(--line);padding-top:.6rem;margin-top:auto}
+  .take .tev b{color:var(--ink)}
+
+  .beforeafter{display:flex;align-items:stretch;gap:1rem;flex-wrap:wrap;margin-top:.4rem}
+  .ba{flex:1;min-width:220px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1.1rem 1.3rem}
+  .ba .t{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;margin-bottom:.5rem}
+  .ba.before .t{color:var(--muted)}
+  .ba.after .t{color:var(--accent2)}
+  .ba p{font-size:1.15rem;font-weight:600;line-height:1.35}
+  .ba.before p{color:var(--muted)}
+  .ba.after{border-color:var(--accent2)}
+  .ba.after p{color:#fff}
+  .ba-arrow{align-self:center;font-size:1.6rem;color:var(--accent)}
+
+  /* ---------- Closing quote slide ---------- */
+  .closing .inner{text-align:center;max-width:880px}
+  .closing .bigq{
+    font-size:clamp(1.6rem,4vw,3rem);line-height:1.3;font-weight:700;letter-spacing:-.01em;
+    margin:1.6rem 0;
+  }
+  .closing .bigq .hl{color:var(--accent)}
+  .closing .clauses{display:flex;justify-content:center;gap:1.4rem;flex-wrap:wrap;margin-top:1.6rem;color:var(--muted)}
+  .closing .clauses span{display:inline-flex;align-items:center;gap:.5rem;font-size:1rem}
+  .closing .clauses .ico{font-size:1.4rem}
 </style>
 </head>
 <body>
@@ -333,59 +372,57 @@
     </div>
   </section>
 
-  <!-- Slide 6: Takeaways -->
+  <!-- Slide: Real Takeaways -->
   <section class="slide">
     <div class="inner">
-      <span class="kicker">Slide 7 · Takeaways</span>
-      <h2>What surprised me and changed my thinking.</h2>
-      <ul>
-        <li><strong class="green">Helping the worst-off raised the average.</strong> Fairness and efficiency don't always fight each other.</li>
-        <li><strong class="danger">The "fair" rule caused the worst harm</strong> (the Capacity Trap) — and the group it ignored actually thrived.</li>
-        <li><strong>Hiding the group label did nothing</strong> — bias simply rode in on a proxy.</li>
-        <li><strong>100% is impossible by sharing alone</strong> — it's just arithmetic: 9 fish can't feed 18 hungry people. Only redistribution fixes a famine, and an allocation rule can't redistribute.</li>
-        <li class="quote" style="margin-top:.5rem">The big shift: "The algorithm isn't the problem — it's a mirror. Fairness is a choice about whose harm counts, not a calculation."</li>
-      </ul>
+      <span class="kicker">Real Takeaways</span>
+      <h2 style="margin-bottom:.4rem">Three things the simulation actually proved.</h2>
+
+      <div class="take">
+        <div class="tcard">
+          <span class="ic">⚖️</span>
+          <span class="tlabel">On Fairness</span>
+          <p class="tquote">"A fair process applied to an unfair society produces unfair results."</p>
+          <p class="tev"><b>Evidence:</b> The lottery gave equal odds. Group&nbsp;C still ended at health <b class="danger">23</b>. Same rule, different reality.</p>
+        </div>
+        <div class="tcard">
+          <span class="ic">📊</span>
+          <span class="tlabel">On Metrics</span>
+          <p class="tquote">"The metric you trust most is usually the one lying hardest."</p>
+          <p class="tev"><b>Evidence:</b> Welfare = <b class="green">49.6</b> looked perfect. <b class="danger">33%</b> were already dead.</p>
+        </div>
+        <div class="tcard">
+          <span class="ic">👑</span>
+          <span class="tlabel">On Power</span>
+          <p class="tquote">"Whoever sets the benchmark sets the sorting rule."</p>
+          <p class="tev"><b>Evidence:</b> Big labs write the evals that gate everyone's access — including the small labs they compete against.</p>
+        </div>
+      </div>
+
+      <div class="beforeafter">
+        <div class="ba before">
+          <div class="t">Before</div>
+          <p>"Fix the algorithm."</p>
+        </div>
+        <div class="ba-arrow">→</div>
+        <div class="ba after">
+          <div class="t">After</div>
+          <p>"Fix what the algorithm is measuring — and who built the ruler."</p>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- Slide 7: Featured Case Study -->
-  <section class="slide">
+  <!-- Slide: Closing Quote -->
+  <section class="slide closing">
     <div class="inner">
-      <span class="kicker"><span class="feature-badge">★ Featured Case Study</span></span>
-      <h2>The Capacity Trap</h2>
-      <p class="lead">A rule built to protect the weakest produced the worst inequality — purely because it trusted reputation over reality. This is a real pattern from a <strong>50-run batch</strong>, not a fluke.</p>
-
-      <div class="bars">
-        <div class="bar">
-          <span class="val danger">~0</span>
-          <div class="fill" style="height:4%;background:var(--danger)"></div>
-          <span class="cap">Deep Water<br>(famous, fished empty)</span>
-        </div>
-        <div class="bar">
-          <span class="val danger">~0</span>
-          <div class="fill" style="height:6%;background:var(--danger)"></div>
-          <span class="cap">Kelp Forest<br>(famous, fished empty)</span>
-        </div>
-        <div class="bar">
-          <span class="val green">full</span>
-          <div class="fill" style="height:92%;background:var(--accent2)"></div>
-          <span class="cap">Southern Reef<br>(ignored, still full)</span>
-        </div>
-        <div class="bar">
-          <span class="val green">full</span>
-          <div class="fill" style="height:88%;background:var(--accent2)"></div>
-          <span class="cap">Western Bay<br>(ignored, still full)</span>
-        </div>
+      <span class="kicker">Closing Thought</span>
+      <p class="bigq">AI can make things <span class="hl">faster</span> — but speed is not wisdom, automation is not judgement, and algorithms are not human beings.</p>
+      <div class="clauses">
+        <span><span class="ico">⚡</span> speed ≠ wisdom</span>
+        <span><span class="ico">🤖</span> automation ≠ judgement</span>
+        <span><span class="ico">🧑‍🤝‍🧑</span> algorithms ≠ human beings</span>
       </div>
-
-      <div class="stats">
-        <div class="stat"><div class="n green">49.3</div><div class="l">Group A — the deprioritized group <em>thrives</em></div></div>
-        <div class="stat"><div class="n danger">34.8</div><div class="l">Group B — craters</div></div>
-        <div class="stat"><div class="n">45.9</div><div class="l">Group C</div></div>
-        <div class="stat"><div class="n warn">0.07→0.16</div><div class="l">Inequality (Gini) <strong>doubles</strong></div></div>
-      </div>
-
-      <p class="muted">Why it spoke to me: the group the rule <em>deprioritized</em> (A) ended up best — because it got sent to the ignored-but-full zones. It maps perfectly onto AI: everyone floods the "best" provider until it degrades, while the diversifiers quietly win on the leaner ones.</p>
     </div>
   </section>
 
